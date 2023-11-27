@@ -56,12 +56,32 @@ document.addEventListener('DOMContentLoaded', function () {
             videoEmbed.src = `https://www.youtube.com/embed/${video.id.videoId}`;
             videoEmbed.width = 300;
             videoEmbed.height = 200;
-
+            videoEmbed.style.borderRadius = '12px';
+            
             var videoTitle = document.createElement('p');
             videoTitle.textContent = video.snippet.title;
+            videoTitle.style.color = '#ffffff'
+
+            var likesCount = document.createElement('p');
+
+            // Chamada à API para obter estatísticas do vídeo (incluindo likes)
+            gapi.client.youtube.videos.list({
+                part: 'statistics',
+                id: video.id.videoId,
+            }).then(function (response) {
+                var videoStatistics = response.result.items[0].statistics;
+                var likeCount = videoStatistics.likeCount || 0;
+                likesCount.innerHTML = `<i class="fa-regular fa-thumbs-up"></i> ${likeCount}`;
+                likesCount.style.color = '#ffffff'
+            }).catch(function (error) {
+                console.error('Erro ao obter estatísticas do vídeo:', error);
+                likesCount.textContent = 'Likes: N/A';
+            });
+
 
             videoItem.appendChild(videoEmbed);
             videoItem.appendChild(videoTitle);
+            videoItem.appendChild(likesCount);
 
             videosContainer.appendChild(videoItem);
         });
