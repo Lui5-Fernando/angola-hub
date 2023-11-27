@@ -1,0 +1,99 @@
+*{
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+    background-color: #000;
+}
+
+header{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    padding: 12px;
+}
+
+#container-menu-header{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 30px;
+    margin-left: 10px;
+    margin-right: 25px;
+    cursor: pointer;
+}
+
+.menu-header{
+    background-color: #ff8b39;
+    width: 28px;
+    height: 4px;
+    border-radius: 4px;
+}
+
+#logo-header{
+    color: #fff;
+    display: flex;
+    margin-top: 23px;
+}
+
+#logo-header div{
+    color: #000000;
+    background-color: #ff8b39;
+    border-radius: 6px;
+    padding: 2px;
+    margin-left: 4px;
+}
+
+#pesquisa-headre{
+    margin-top: 24px;
+    background-color: #2f2f2f;
+    border-radius: 20px;
+    height: 40px;
+    width: 590px;
+    display: flex;
+    align-items: center;
+    margin-inline: auto;
+}
+
+#pesquisa-headre button{
+    background-color: #00000000;
+    border: none;
+    padding: 12px;
+}
+
+#pesquisa-headre input{
+    background-color: #00000000;
+    color: #fff;
+    width: 530px;
+    font-size: medium;
+    border: none;
+    outline: none;
+}
+
+#user-header{
+    display: flex;
+    align-items: center;
+    color: #000000;
+}
+
+#user-header i{
+    background-color: #b6b6b6;
+    padding: 10px;
+    border-radius: 24px;
+    margin-top: 22px;
+    margin-right: 24px;
+}
+
+#videos-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.video-item {
+    width: 300px;
+    margin: 10px;
+}
+
