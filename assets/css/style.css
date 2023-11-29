@@ -45,7 +45,7 @@ header{
     margin-left: 4px;
 }
 
-#pesquisa-headre{
+#pesquisa-header{
     margin-top: 24px;
     background-color: #2f2f2f;
     border-radius: 20px;
@@ -56,13 +56,13 @@ header{
     margin-inline: auto;
 }
 
-#pesquisa-headre button{
+#pesquisa-header button{
     background-color: #00000000;
     border: none;
     padding: 12px;
 }
 
-#pesquisa-headre input{
+#pesquisa-header input{
     background-color: #00000000;
     color: #fff;
     width: 530px;
@@ -132,10 +132,16 @@ iframe{
         border: 0px;
     }
 
-    #pesquisa-headre input{
-        width: 0px;
-        font-size: medium;
-        border: none;
-        outline: none;
+    #pesquisa-header input{
+        display: none;
+    }
+
+    #pesquisa-header{
+        width: auto;
+        background-color: #00000000;
+    }
+
+    #pesquisa-header input{
+        width: 100%;
     }
 }

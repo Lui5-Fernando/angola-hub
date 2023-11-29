@@ -1,9 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Variáveis para controle do carregamento progressivo
-    var nextPageToken = ''; // Token para a próxima página de resultados
-    var loading = false; // Flag para evitar carregamento duplicado
+    var nextPageToken = ''; 
+    var loading = false; 
 
-    // Inicializar a API do YouTube
+
     gapi.load('client', init);
 
     function init() {
@@ -11,11 +10,11 @@ document.addEventListener('DOMContentLoaded', function () {
             apiKey: 'AIzaSyDqD3cq6ily_-cgFF5c0wOwmiMgJL1sP7A',
             discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest'],
         }).then(function () {
-            // Adicionar um ouvinte de evento de rolagem
+
             window.addEventListener('scroll', function () {
-                // Verificar se o usuário atingiu o final da página
+
                 if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
-                    // Carregar mais vídeos se não estiver carregando atualmente
+
                     if (!loading) {
                         loading = true;
                         searchVideos('angolano');
@@ -23,7 +22,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
 
-            // Chamar a função para buscar vídeos inicialmente
             searchVideos('angolano');
         });
     }
@@ -34,14 +32,14 @@ document.addEventListener('DOMContentLoaded', function () {
             part: 'snippet',
             type: 'video',
             maxResults: 10,
-            pageToken: nextPageToken, // Adicionar o token da próxima página
+            pageToken: nextPageToken,
         }).then(function (response) {
             displayVideos(response.result.items);
-            nextPageToken = response.result.nextPageToken; // Atualizar o token para a próxima página
-            loading = false; // Marcar o carregamento como concluído
+            nextPageToken = response.result.nextPageToken; 
+            loading = false;
         }, function (error) {
             console.error('Erro ao buscar vídeos:', error);
-            loading = false; // Lidar com erro e marcar o carregamento como concluído
+            loading = false; 
         });
     }
 
@@ -56,31 +54,25 @@ document.addEventListener('DOMContentLoaded', function () {
             videoEmbed.src = `https://www.youtube.com/embed/${video.id.videoId}`;
             videoEmbed.width = 300;
             videoEmbed.height = 200;
-            videoEmbed.style.borderRadius = '10px'; // Pode ajustar conforme necessário
+            videoEmbed.style.borderRadius = '10px'; 
     
             var videoSection = document.createElement('section');
     
             var videoTitle = document.createElement('p');
             videoTitle.textContent = video.snippet.title;
-            videoTitle.style.color = '#ffffff'; // Pode ajustar a cor conforme necessário
+            videoTitle.style.color = '#ffffff';
     
-            // Elemento para mostrar o ícone de "thumbs-up"
             var thumbsUpIcon = document.createElement('i');
     
-            // Container (div) para incluir nome do canal, número de viws, e quantidade de likes
             var videoInfoContainer = document.createElement('div');
-            videoInfoContainer.classList.add('video-info-container'); // Adicione esta linha
-    
-            // Elemento para mostrar o nome do canal
+            videoInfoContainer.classList.add('video-info-container');
+ 
             var channelName = document.createElement('p');
     
-            // Elemento para mostrar o número de visualizações
             var viewCount = document.createElement('p');
-    
-            // Elemento para mostrar a quantidade de likes
+
             var likesCount = document.createElement('span');
-    
-            // Chamada à API para obter informações do vídeo (incluindo nome do canal e número de visualizações)
+
             gapi.client.youtube.videos.list({
                 part: 'snippet,statistics',
                 id: video.id.videoId,
@@ -92,7 +84,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 var viewCountValue = videoStatistics.viewCount || 0;
                 var likeCountValue = parseInt(videoStatistics.likeCount) || 0;
     
-                // Configurar o texto e adicionar as informações
                 channelName.innerHTML = `${channelTitle}`;
                 viewCount.textContent = `Views: ${viewCountValue}`;
                 likesCount.innerHTML = `<i class="fa-solid fa-thumbs-up"></i> ${likeCountValue}`;
@@ -104,22 +95,38 @@ document.addEventListener('DOMContentLoaded', function () {
                 likesCount.textContent = '<i class="fa-solid fa-thumbs-up"></i> N/A';
             });
     
-            // Adicionar os elementos à div de informações
             videoInfoContainer.appendChild(channelName);
             videoInfoContainer.appendChild(viewCount);
             videoInfoContainer.appendChild(thumbsUpIcon);
             videoInfoContainer.appendChild(likesCount);
     
-            // Adicionar a div de informações à seção
             videoSection.appendChild(videoTitle);
             videoSection.appendChild(videoInfoContainer);
     
-            // Adicionar a seção e o vídeo incorporado ao item de vídeo
             videoItem.appendChild(videoEmbed);
             videoItem.appendChild(videoSection);
     
-            // Adicionar o item de vídeo ao contêiner principal
             videosContainer.appendChild(videoItem);
         });
     }
 });
+
+var searchInput = document.querySelector("#search-input")
+var pesquisaHeader = document.querySelector("#pesquisa-header")
+var menuHeader = document.querySelector("#container-menu-header")
+var logoHeader = document.querySelector("#logo-header")
+var userHeader = document.querySelector("#user-header")
+var videosContainer = document.querySelector("#videos-container")
+pesquisaHeader.addEventListener('click', () => {
+    searchInput.style.display = 'block'
+    menuHeader.style.display = 'none'
+    logoHeader.style.display = 'none'
+    userHeader.style.display = 'none'
+    searchInput.focus()
+})
+videosContainer.addEventListener('click', () => {
+    searchInput.style.display = 'none'
+    menuHeader.style.display = 'flex'
+    logoHeader.style.display = 'flex'
+    userHeader.style.display = 'block'
+})
