@@ -47,42 +47,78 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function displayVideos(videos) {
         var videosContainer = document.getElementById('videos-container');
-
+    
         videos.forEach(function (video) {
             var videoItem = document.createElement('div');
             videoItem.classList.add('video-item');
-
+    
             var videoEmbed = document.createElement('iframe');
             videoEmbed.src = `https://www.youtube.com/embed/${video.id.videoId}`;
             videoEmbed.width = 300;
             videoEmbed.height = 200;
-            videoEmbed.style.borderRadius = '12px';
-            
+            videoEmbed.style.borderRadius = '10px'; // Pode ajustar conforme necessário
+    
+            var videoSection = document.createElement('section');
+    
             var videoTitle = document.createElement('p');
             videoTitle.textContent = video.snippet.title;
-            videoTitle.style.color = '#ffffff'
-
-            var likesCount = document.createElement('p');
-
-            // Chamada à API para obter estatísticas do vídeo (incluindo likes)
+            videoTitle.style.color = '#ffffff'; // Pode ajustar a cor conforme necessário
+    
+            // Elemento para mostrar o ícone de "thumbs-up"
+            var thumbsUpIcon = document.createElement('i');
+    
+            // Container (div) para incluir nome do canal, número de viws, e quantidade de likes
+            var videoInfoContainer = document.createElement('div');
+            videoInfoContainer.classList.add('video-info-container'); // Adicione esta linha
+    
+            // Elemento para mostrar o nome do canal
+            var channelName = document.createElement('p');
+    
+            // Elemento para mostrar o número de visualizações
+            var viewCount = document.createElement('p');
+    
+            // Elemento para mostrar a quantidade de likes
+            var likesCount = document.createElement('span');
+    
+            // Chamada à API para obter informações do vídeo (incluindo nome do canal e número de visualizações)
             gapi.client.youtube.videos.list({
-                part: 'statistics',
+                part: 'snippet,statistics',
                 id: video.id.videoId,
             }).then(function (response) {
+                var videoSnippet = response.result.items[0].snippet;
                 var videoStatistics = response.result.items[0].statistics;
-                var likeCount = videoStatistics.likeCount || 0;
-                likesCount.innerHTML = `<i class="fa-regular fa-thumbs-up"></i> ${likeCount}`;
-                likesCount.style.color = '#ffffff'
+    
+                var channelTitle = videoSnippet.channelTitle;
+                var viewCountValue = videoStatistics.viewCount || 0;
+                var likeCountValue = parseInt(videoStatistics.likeCount) || 0;
+    
+                // Configurar o texto e adicionar as informações
+                channelName.innerHTML = `${channelTitle}`;
+                viewCount.textContent = `Views: ${viewCountValue}`;
+                likesCount.innerHTML = `<i class="fa-solid fa-thumbs-up"></i> ${likeCountValue}`;
+    
             }).catch(function (error) {
-                console.error('Erro ao obter estatísticas do vídeo:', error);
-                likesCount.textContent = 'Likes: N/A';
+                console.error('Erro ao obter informações do vídeo:', error);
+                channelName.textContent = 'Canal: N/A';
+                viewCount.textContent = 'Visualizações: N/A';
+                likesCount.textContent = '<i class="fa-solid fa-thumbs-up"></i> N/A';
             });
-
-
+    
+            // Adicionar os elementos à div de informações
+            videoInfoContainer.appendChild(channelName);
+            videoInfoContainer.appendChild(viewCount);
+            videoInfoContainer.appendChild(thumbsUpIcon);
+            videoInfoContainer.appendChild(likesCount);
+    
+            // Adicionar a div de informações à seção
+            videoSection.appendChild(videoTitle);
+            videoSection.appendChild(videoInfoContainer);
+    
+            // Adicionar a seção e o vídeo incorporado ao item de vídeo
             videoItem.appendChild(videoEmbed);
-            videoItem.appendChild(videoTitle);
-            videoItem.appendChild(likesCount);
-
+            videoItem.appendChild(videoSection);
+    
+            // Adicionar o item de vídeo ao contêiner principal
             videosContainer.appendChild(videoItem);
         });
     }

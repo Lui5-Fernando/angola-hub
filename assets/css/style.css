@@ -92,8 +92,50 @@ header{
     padding: 20px;
 }
 
+.video-info-container {
+    display: flex;
+    font-size: smaller;
+    justify-content: space-between;
+    margin-top: 10px; 
+    color: #fff;
+    max-width: 60vw;
+}
+
 .video-item {
     width: 300px;
     margin: 10px;
+    border-radius: 12px;
+    color: #fff;
 }
 
+iframe{
+    border-radius: 12px;
+}
+
+@media screen and (max-width: 600px) {
+
+    #videos-container{
+        padding: 0;
+    }
+
+    .video-item{
+        width: 100vw;
+        height: auto;
+        margin: 0;
+    }
+
+    iframe{
+        margin-top: 10px;
+        margin-bottom: 10px;
+        width: 100vw;
+        border-radius: 0px;
+        border: 0px;
+    }
+
+    #pesquisa-headre input{
+        width: 0px;
+        font-size: medium;
+        border: none;
+        outline: none;
+    }
+}
